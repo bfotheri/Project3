@@ -5,6 +5,7 @@ import random
 from keras.layers import ELU
 
 def generator(features, labels, batch_size):
+
  # Create empty arrays to contain batch of features and labels#
  batch_features = np.zeros((batch_size, 160, 320, 3))
  batch_labels = np.zeros((batch_size,1))
@@ -12,6 +13,8 @@ def generator(features, labels, batch_size):
  while True:
    for i in range(batch_size):
      index = random.choice(list(range(len(features))))
+     #Here we have a one in four chance to flip an image.
+     #This helps fix the left turn bias the model has
      if(index % 4 ==  0):
          flippedImage = np.fliplr(features[index])
          flippedMeasurement = -labels[index]
@@ -31,8 +34,11 @@ with open('sample_driving_log.csv') as csvfile:
 
 images = []
 measurements = []
-minval = 0.020
+minval = 0.020 #This value makes it so that all images with an associated
+#driving angle of less than 0.5 will be removed from the training set
 
+
+#Here we get the images from the Udacity training data
 for line in lines:
     for column in line[:2]:
         source_path = column
@@ -51,6 +57,7 @@ with open('driving_log.csv') as csvfile:
     for line in reader:
         lines.append(line)
 
+#Here we get the images from personal training sessions
 for line in lines:
     for column in line[:2]:
         source_path = column
@@ -66,10 +73,6 @@ for line in lines:
             image = cv2.imread(current_path)
             images.append(image)
 
-from sklearn.model_selection import train_test_split
-
-# train_samples, validation_samples = train_test_split(samples, test_size=0.2)
-
 print(len(images))
 from keras.models import Sequential
 from keras.layers import Flatten
@@ -80,6 +83,7 @@ from keras.layers import Cropping2D
 
 model = Sequential()
 
+#First we crop the image then put it through a number of convolutional layers
 model.add(Cropping2D(cropping=((70, 25), (0, 0)), input_shape = (160,320,3)))
 model.add(Conv2D(3, (5, 5),activation = "relu"))
 model.add(MaxPooling2D(2,2))
@@ -90,6 +94,7 @@ model.add(MaxPooling2D(2,2))
 model.add(Conv2D(48, (3, 3),activation = "relu"))
 model.add(MaxPooling2D(2,2))
 
+#Here we combine normal layers and dropout layers with ELU activation functions
 model.add(Flatten())
 model.add(Dropout(0.25))
 model.add(ELU())
