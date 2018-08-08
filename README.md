@@ -12,7 +12,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: /images/modelarchitecture.png "Model Visualization"
+[image1]: ./images/modelarchitecture.png "Model Visualization"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -84,38 +84,25 @@ The final model weaves due to low angle data being removed from the training set
 
 #### 2. Final Model Architecture
 
-The final model architecture (model.py lines 87-113) consisted of a convolution neural network with a cropping layer, four convolutional layers with 5x5 and 3x3 filters and accompanying relu activation functions, and four normal layers with 800,100,50, and 1 neurons respectively. Each layer except for the final had an elu activation function.
+The final model architecture (model.py lines 87-113) consisted of a convolution neural network with a cropping layer, four convolutional layers with 5x5 and 3x3 filters and accompanying relu activation functions, and four normal layers with 800,100,50, and 1 neurons respectively. Each layer except for the final had an elu activation function. This model is based on the NVIDIA CNN Architecture with some minor modifications.
 
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
+Here is a visualization of the NVIDIA architecture below:
 
 
 ![alt text][image1]
 
 #### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+To capture good driving behavior, I first recorded five laps on track one using center lane driving.
 
-![alt text][image2]
+I then recorded the vehicle recovering from the left side and right sides of the road at turns where the model struggled. I would drive these areas of the track ~5 times, hugging either the right or left side or driving in the middle, to allow robust navigation of the specified turn.
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+After the collection process, I had 78378 data points.
 
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set.
+To augment the data sat, I also flipped images and angles in order to avoid the inevitable left turn bias on the first training course.
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+This data source was randomly shuffled in a generator that returned batches of 32 over 600 times an epoch. This meant that about 5 epochs would be needed to cover the data. Due to the randomness of image section however some images may never have been used in training, although after 75 epochs the odds of this are very small.
+
+I used this training data for training the model. In the end, 150 would cause overfitting, even when using dropout layers. 75 epochs proved to be the more optimal number of training epochs based on my image generator.
 # Project3
