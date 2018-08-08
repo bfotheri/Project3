@@ -12,13 +12,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: modelarchitecture.png "Model Visualization"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -76,23 +70,21 @@ For details about how I created the training data, see the next section.
 
 #### 1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
+The overall strategy for deriving a model architecture was to find an already existing model that was being used for a similar purpose.
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+My first step was to use a convolution neural network model similar to the NVIDIA self-driving car CNN. While this model operates with data obtained from actual driving scenarios, its application is almost identical to the one needed for this project.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting.
+In order to gauge how well the model was working, I would validate my results on the track. While splitting data in testing and validation sets is valuable, perhaps the best indicator of success is how the car navigates the track itself.
 
-To combat the overfitting, I modified the model so that ...
+Initially, I trained my models for few epochs because of time constraints and the belief the a low MSE for the training data meant more epochs would cause overfitting. However, after training for 50+ epochs on different models I saw that I had been underfitting the data.
 
-Then I ...
+Various changes, such as changing the activation function, adding dropout layers, changing the number of layers and neurons in them, were made. However, time and time again data augmentation and increased training time proved to be the two most important factors in the models performance.
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+The final model weaves due to low angle data being removed from the training set, but it still able to navigate the track completely without leaving the barriers a majority of the time.
 
 #### 2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+The final model architecture (model.py lines 87-113) consisted of a convolution neural network with a cropping layer, four convolutional layers with 5x5 and 3x3 filters and accompanying relu activation functions, and four normal layers with 800,100,50, and 1 neurons respectively. Each layer except for the final had an elu activation function.
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
