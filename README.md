@@ -80,7 +80,7 @@ Initially, I trained my models for few epochs because of time constraints and th
 
 Various changes, such as changing the activation function, adding dropout layers, changing the number of layers and neurons in them, were made. However, time and time again data augmentation and increased training time proved to be the two most important factors in the models performance.
 
-The final model weaves due to low angle data being removed from the training set, but it still able to navigate the track completely without leaving the barriers a majority of the time.
+The final model weaves due to low angle data being removed from the training set, but is still able to navigate the track completely without leaving the barriers.
 
 #### 2. Final Model Architecture
 
@@ -100,9 +100,9 @@ I then recorded the vehicle recovering from the left side and right sides of the
 After the collection process, I had 78378 data points.
 
 
-To augment the data sat, I also flipped images and angles in order to avoid the inevitable left turn bias on the first training course.
+To augment the data set, I also flipped images and angles in order to avoid the inevitable left turn bias on the first training course.
 
 This data source was randomly shuffled in a generator that returned batches of 32 over 600 times an epoch. This meant that about 5 epochs would be needed to cover the data. Due to the randomness of image section however some images may never have been used in training, although after 75 epochs the odds of this are very small.
 
-I used this training data for training the model. In the end, 150 would cause overfitting, even when using dropout layers. 75 epochs proved to be the more optimal number of training epochs based on my image generator.
+In regards to the number of epochs, it was determined that 150 epochs would cause overfitting, even when using dropout layers. After further experimentation I concluded that 75 epochs proved to be the more optimal number for training with my image generator.
 # Project3
