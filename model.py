@@ -83,7 +83,7 @@ from keras.layers import Cropping2D
 
 model = Sequential()
 
-#First we crop the image then put it through a number of convolutional layers
+# First we crop the image then put it through a number of convolutional layers
 model.add(Cropping2D(cropping=((70, 25), (0, 0)), input_shape = (160,320,3)))
 model.add(Conv2D(3, (5, 5),activation = "relu"))
 model.add(MaxPooling2D(2,2))
